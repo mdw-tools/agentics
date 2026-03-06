@@ -1,0 +1,14 @@
+{
+  "name": "mdw-claude",
+  "owner": {
+    "name": "mdw-tools"
+  },
+  "plugins": [
+    {
+      "name": "picard",
+      "source": "./plugins/picard",
+      "description": "Agentic coding workflow skills: scan (research), plot (proposal), engage (implementation).",
+      "version": "0.1.0"
+    }
+  ]
+}
