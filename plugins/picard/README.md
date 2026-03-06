@@ -8,15 +8,15 @@ The central discipline is simple: **never let the agent write code until a writt
 
 ## The three phases
 
-### `/picard:scan` — Research
+### `/scan` — Research
 
 The agent researches the topic deeply, exploring relevant code, dependencies, constraints, and edge cases. It produces a `scan` document in the project's work-sessions directory. No code is written. No solutions are proposed. The human reviews the findings before moving on.
 
-### `/picard:plot` — Proposal
+### `/plot` — Proposal
 
 The agent drafts a proposal document covering the approach, key design decisions, trade-offs, and risks. The proposal concludes with a detailed **Implementation Checklist** organized around a red/green TDD cycle. The human then enters an annotation cycle — adding inline notes to the document, asking the agent to revise it — until the proposal is approved. Still no code is written.
 
-### `/picard:engage` — Implementation
+### `/engage` — Implementation
 
 With the proposal approved, the agent executes the checklist one item at a time, in order, marking each item complete in the proposal document as it finishes. No skipping, no combining steps. The TDD cycle prescribed in the checklist is followed faithfully throughout.
 
