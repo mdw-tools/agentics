@@ -14,6 +14,26 @@ Three skills implementing a deliberate, phase-based coding workflow. The discipl
 | plot   | `/picard:plot`   | Proposal with TDD checklist; iterated until approved |
 | engage | `/picard:engage` | Executes the approved checklist, one step at a time  |
 
+## Installation
+
+**Add this marketplace to Claude Code:**
+
+```
+/plugin marketplace add mdw-tools/agentics
+```
+
+**Install the picard plugin:**
+
+```
+/plugin install picard@agentics
+```
+
+Plugins can be installed at user scope (default, available across all projects) or project scope (shared with collaborators via `.claude/settings.json`):
+
+```
+/plugin install picard@agentics --scope project
+```
+
 ## Structure
 
 ```
