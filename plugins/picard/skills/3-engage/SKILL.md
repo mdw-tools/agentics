@@ -14,7 +14,9 @@ Read the entire proposal, especially the **Implementation Checklist**, before wr
 ## Execution rules
 
 - Work through checklist items **one at a time, in order**. No skipping. No combining steps.
-- After completing each checklist item, **immediately mark it `[x]` in the proposal document** before moving to the next item. Do not batch updates — mark complete only what is actually done.
+- For each checklist item, follow this exact sequence:
+  1. Do the work (write/edit code, run tests, etc.)
+  2. **Immediately call the Edit tool to mark that item `[x]` in the proposal document.** This Edit call must happen in the same response as the work, before any tool calls for the next item. Do not batch mark-offs.
 - Do not stop to ask for feedback mid-implementation unless you hit a genuine blocker that requires a decision. Terse corrections from the user ("wider," "wrong file") are fine to act on immediately.
 - Run tests continuously throughout. Do not let a phase accumulate failures.
 - Write minimal comments — only where the logic is non-obvious.
