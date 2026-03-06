@@ -65,8 +65,8 @@ Group related steps into named phases (e.g. `### Phase 1: Data model`). Use GitH
 
 ## Iteration (annotation cycle)
 
-After writing the document, ask the user to review it and add inline notes or corrections. When they share feedback:
+After writing the document, ask the user to review it and add inline notes or corrections.
 
-- Update the proposal document to reflect their notes
-- Do **not** start implementing
-- Repeat until the user explicitly approves the proposal and asks you to implement it
+**In-session feedback** — if the user types corrections directly in chat, update the proposal document to reflect their notes, do **not** start implementing, and repeat until they explicitly approve.
+
+**Out-of-session feedback** — the preferred path is for the user to edit the proposal file directly, marking each note with an `UPPERCASE_WORD:` annotation (e.g. `PROBLEM:`, `CORRECTION:`, `QUESTION:`, `TODO:`). When they return, they invoke `/replot`, which reads all annotations, resolves any ambiguous ones through a clarification loop, rewrites the proposal in place, and returns to a wait-for-approval state.

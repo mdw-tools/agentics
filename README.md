@@ -6,13 +6,14 @@ A marketplace of Claude Code plugins for agentic coding workflows.
 
 ### [picard](plugins/picard/README.md)
 
-Three skills implementing a deliberate, phase-based coding workflow. The discipline: never let the agent write code until a written plan has been reviewed and approved.
+Four skills implementing a deliberate, phase-based coding workflow. The discipline: never let the agent write code until a written plan has been reviewed and approved.
 
-| Skill  | Command          | Purpose                                              |
-|--------|------------------|------------------------------------------------------|
-| scan   | `/picard:scan`   | Deep research; produces a findings document          |
-| plot   | `/picard:plot`   | Proposal with TDD checklist; iterated until approved |
-| engage | `/picard:engage` | Executes the approved checklist, one step at a time  |
+| Skill  | Command     | Purpose                                                        |
+|--------|-------------|----------------------------------------------------------------|
+| scan   | `/scan`     | Deep research; produces a findings document                    |
+| plot   | `/plot`     | Proposal with TDD checklist; iterated until approved           |
+| replot | `/replot`   | Revises proposal from inline annotations; no code written      |
+| engage | `/engage`   | Executes the approved checklist, one step at a time            |
 
 ## Installation
 

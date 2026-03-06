@@ -6,7 +6,7 @@ A set of three Claude Code skills implementing a deliberate, phase-based agentic
 
 The central discipline is simple: **never let the agent write code until a written plan has been reviewed and approved.** The first two phases produce an artifact that the human reviews before the next phase begins.
 
-## The three phases
+## The phases
 
 ### `/scan` — Research
 
@@ -15,6 +15,10 @@ The agent researches the topic deeply, exploring relevant code, dependencies, co
 ### `/plot` — Proposal
 
 The agent drafts a proposal document covering the approach, key design decisions, trade-offs, and risks. The proposal concludes with a detailed **Implementation Checklist** organized around a red/green TDD cycle. The human then enters an annotation cycle — adding inline notes to the document, asking the agent to revise it — until the proposal is approved. Still no code is written.
+
+### `/replot` — Revise proposal from annotations
+
+When the human has edited the proposal file directly — marking feedback with `UPPERCASE_WORD:` annotations (e.g. `PROBLEM:`, `CORRECTION:`, `QUESTION:`) — invoking `/replot` picks up those annotations, resolves any that are ambiguous through a clarification loop, and rewrites the proposal in place. The cycle repeats until the human approves. No code is written.
 
 ### `/engage` — Implementation
 
