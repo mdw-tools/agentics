@@ -1,5 +1,5 @@
 ---
-name: proposal
+name: plot
 description: Phase 2 of the agentic coding workflow. Collaborates with the user on a written proposal (approach, trade-offs, implementation checklist) before any code is written.
 ---
 

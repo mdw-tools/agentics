@@ -1,5 +1,5 @@
 ---
-name: implement
+name: engage
 description: Phase 3 of the agentic coding workflow. Executes the approved proposal checklist one task at a time, marking each item complete in the proposal document as it is finished.
 ---
 

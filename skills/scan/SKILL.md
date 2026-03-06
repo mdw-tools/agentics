@@ -1,5 +1,5 @@
 ---
-name: research
+name: scan
 description: Phase 1 of the agentic coding workflow. Conducts deep research on a topic and produces a research document for human review before any planning or implementation begins.
 ---
 
@@ -16,7 +16,7 @@ Do **not** propose solutions, write plans, or implement anything. Your only outp
 Determine the git repo root (use `git rev-parse --show-toplevel`), then write the research findings to:
 
 ```
-<git-repo-root>/doc/work-sessions/<yyyy>/<yyyy-mm-dd>-research-<terse-description>.md
+<git-repo-root>/doc/work-sessions/<yyyy>/<yyyy-mm-dd>-scan-<terse-description>.md
 ```
 
 - `<yyyy>` — the current four-digit year
