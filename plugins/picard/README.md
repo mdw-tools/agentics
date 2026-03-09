@@ -35,7 +35,7 @@ The plugin itself is named **picard** in honor of the same captain.
 Scan and proposal documents are written to:
 
 ```
-<git-repo-root>/doc/work-sessions/<yyyy>/<yyyy-mm-dd>-<phase>-<description>.md
+<git-repo-root>/doc/work-sessions/<yyyy>/<yyyy-mm-dd_hh-mm-ss>-<phase>-<description>.md
 ```
 
 Keeping these documents in the repository creates a durable record of the reasoning behind each piece of work.

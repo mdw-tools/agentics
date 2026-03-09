@@ -10,7 +10,7 @@ The user wants to plan a coding task. Your job is to produce a proposal document
 Determine the git repo root (use `git rev-parse --show-toplevel`), then create the proposal at:
 
 ```
-<git-repo-root>/doc/work-sessions/<yyyy>/<yyyy-mm-dd>-proposal-<terse-description>.md
+<git-repo-root>/doc/work-sessions/<yyyy>/<yyyy-mm-dd_hh-mm-ss>-proposal-<terse-description>.md
 ```
 
 - `<yyyy>` — the current four-digit year
