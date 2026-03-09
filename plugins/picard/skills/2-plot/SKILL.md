@@ -14,7 +14,7 @@ Determine the git repo root (use `git rev-parse --show-toplevel`), then create t
 ```
 
 - `<yyyy>` — the current four-digit year
-- `<yyyy-mm-dd>` — today's date
+- `<yyyy-mm-dd_hh-mm-ss>` — run `date '+%Y-%m-%d_%H-%M-%S'` to get the current date and time
 - `<terse-description>` — a short, hyphen-separated description matching the topic (e.g. `user-auth-flow`)
 
 If a research document for this topic exists in the same `doc/work-sessions/<yyyy>/` directory, read it before writing the proposal.

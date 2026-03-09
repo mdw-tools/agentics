@@ -20,7 +20,7 @@ Determine the git repo root (use `git rev-parse --show-toplevel`), then write th
 ```
 
 - `<yyyy>` — the current four-digit year
-- `<yyyy-mm-dd>` — today's date
+- `<yyyy-mm-dd_hh-mm-ss>` — run `date '+%Y-%m-%d_%H-%M-%S'` to get the current date and time
 - `<terse-description>` — a short, hyphen-separated description of the topic (e.g. `user-auth-flow`)
 
 ## Document structure
