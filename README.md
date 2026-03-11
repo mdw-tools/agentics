@@ -15,6 +15,14 @@ Four skills implementing a deliberate, phase-based coding workflow. The discipli
 | replot | `/replot`   | Revises proposal from inline annotations; no code written      |
 | engage | `/engage`   | Executes the approved checklist, one step at a time            |
 
+### [data](plugins/data/README.md)
+
+Analysis skills for comparing and reviewing code across branches.
+
+| Skill         | Command                          | Purpose                                                       |
+|---------------|----------------------------------|---------------------------------------------------------------|
+| scan-branches | `/scan-branches <branch> [base]` | Summarizes differences between branches; flags concerns        |
+
 ## Installation
 
 **Add this marketplace to Claude Code:**
@@ -28,6 +36,14 @@ Four skills implementing a deliberate, phase-based coding workflow. The discipli
 ```
 /plugin install picard@agentics
 ```
+
+**Install the data plugin:**
+
+```
+/plugin install data@agentics
+```
+
+After installing a plugin, exit and re-enter Claude Code to ensure it loads properly.
 
 Plugins can be installed at user scope (default, available across all projects) or project scope (shared with collaborators via `.claude/settings.json`):
 
