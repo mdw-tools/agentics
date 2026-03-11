@@ -19,8 +19,8 @@ Four skills implementing a deliberate, phase-based coding workflow. The discipli
 
 Analysis skills for comparing and reviewing code across branches.
 
-| Skill         | Command                          | Purpose                                                       |
-|---------------|----------------------------------|---------------------------------------------------------------|
+| Skill         | Command                          | Purpose                                                        |
+|---------------|----------------------------------|----------------------------------------------------------------|
 | scan-branches | `/scan-branches <branch> [base]` | Summarizes differences between branches; flags concerns        |
 
 ## Installation
