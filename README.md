@@ -50,13 +50,3 @@ Plugins can be installed at user scope (default, available across all projects) 
 ```
 /plugin install picard@agentics --scope project
 ```
-
-## Structure
-
-```
-.claude-plugin/marketplace.json   # Marketplace manifest
-plugins/
-  <name>/
-    .claude-plugin/plugin.json    # Plugin manifest
-    skills/<N>-<name>/SKILL.md    # Skill prompt (frontmatter + body)
-```
