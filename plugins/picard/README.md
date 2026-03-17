@@ -39,3 +39,27 @@ Scan and proposal documents are written to:
 ```
 
 Keeping these documents in the repository creates a durable record of the reasoning behind each piece of work.
+
+## Example workflow:
+
+The general workflow looks something like this:
+
+User: `/scan go analyze this code over here to learn about how such and such is done, and record your findings--ranked by how complicated they would be to implement...`
+
+Claude: _creates a research document at ./doc/work-sessions/..._
+
+User: `/plot implement option B from the research you just did`
+
+Claude: _creates a proposal document with code snippets and checklists at `./doc/work-sessions/...`_
+
+User: _annotates the proposal document with lines that start with ALLCAPS words followed by a colon (i.e. `CORRECTION: no, do it this way`)_
+
+User: `/replot`
+
+Claude: _rewrites the proposal according to the annotations added previously_
+
+(rinse & repeat adding annotations to document and running `replot` until satisfied with the proposal)
+
+User: `/engage`
+
+Claude: _very obediently performs each task in the proposal document's checklists, one by one, no skipping, no combining, etc._
