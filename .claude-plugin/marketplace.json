@@ -14,7 +14,7 @@
       "name": "data",
       "source": "./plugins/data",
       "description": "Git-oriented analysis skills: scan-branches (compare branches).",
-      "version": "0.1.0"
+      "version": "0.1.1"
     }
   ]
 }

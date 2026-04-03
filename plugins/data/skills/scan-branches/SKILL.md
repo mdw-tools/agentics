@@ -32,4 +32,4 @@ If the diff output is very large, do not attempt to review every line. Instead, 
 
 ## Summarize
 
-Review the differences between the two branches. Summarize the changes and flag any concerns (bugs, security, style, inconsistencies). Be concise.
+Review the differences between the two branches. Summarize the changes and flag any concerns (bugs, security, style, inconsistencies). Be concise. Do NOT try to gather context about the changes from previous sessions/conversations. Take the position of an unbiased reviewer.
