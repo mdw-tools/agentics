@@ -21,6 +21,24 @@ Read the entire proposal, especially the **Implementation Checklist**, before wr
 - Run tests continuously throughout. Do not let a phase accumulate failures.
 - Write minimal comments — only where the logic is non-obvious.
 
+## When the user takes over a step
+
+If the user denies a tool call or says they'll perform a step themselves
+(e.g., "I'll run the tests and paste the output"), treat that as a hard stop:
+
+- Do not proceed to subsequent checklist items, even ones that look independent.
+- Do not run other commands or edit other files in the meantime.
+- Do not mark the deferred item `[x]` until the user provides the result.
+- Reply briefly acknowledging you're waiting, then stop.
+
+The reason: their result may invalidate later steps. A failed test means the
+production code needs revision before the next phase makes sense; continuing
+past their checkpoint risks work that has to be undone.
+
+A user taking over a step is the only acknowledged break in the "one item at
+a time, in order" cadence. Resume only after they hand back control with the
+output.
+
 ## TDD discipline
 
 Follow the red/green cycle prescribed in the checklist:
