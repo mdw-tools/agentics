@@ -13,7 +13,7 @@ Read the entire proposal, especially the **Implementation Checklist**, before wr
 
 ## Execution rules
 
-- Work through checklist items **one at a time, in order**. No skipping. No combining steps.
+- Work through checklist items **one at a time, in order**. Do not skip to later checklist items. Do not combine checklist items.
 - For each checklist item, follow this exact sequence:
   1. Do the work (write/edit code, run tests, etc.)
   2. **Immediately call the Edit tool to mark that item `[x]` in the proposal document.** This Edit call must happen in the same response as the work, before any tool calls for the next item. Do not batch mark-offs.
