@@ -32,7 +32,13 @@ Use semantic `id` attributes on every heading and list item so sections and chec
 <style>
   body { font-family: system-ui, -apple-system, sans-serif; max-width: 860px; margin: 3em auto; padding: 0 1.5em; color: #1a1a1a; line-height: 1.65; }
   h1 { font-size: 1.8em; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.3em; }
-  h2 { font-size: 1.2em; color: #333; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+  h2 { font-size: 1.2em; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+  nav.toc { background: #f8f8f8; border: 1px solid #e8e8e8; border-radius: 6px; padding: 0.8em 1.4em 0.9em; margin: 1.5em 0 2em; display: inline-block; min-width: 180px; }
+  nav.toc p { font-size: 0.75em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; margin: 0 0 0.5em; }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 0.2em 0; }
+  nav.toc a { font-size: 0.95em; text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
   h3 { font-size: 1em; color: #555; font-weight: 600; margin-top: 1.5em; }
   pre { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: 1em 1.2em; overflow-x: auto; font-size: 0.9em; }
   code { background: #f0f0f0; padding: 0.15em 0.35em; border-radius: 3px; font-size: 0.9em; }
@@ -41,7 +47,7 @@ Use semantic `id` attributes on every heading and list item so sections and chec
   li { margin: 0.4em 0; }
   .done { opacity: 0.45; text-decoration: line-through; }
   .user-turn { border-left: 3px solid #f90; padding-left: 0.75em; background: #fffcf0; border-radius: 0 4px 4px 0; }
-  .anchor { font-size: 0.7em; color: #bbb; margin-left: 0.5em; font-weight: normal; display: none; text-decoration: none; user-select: text; cursor: copy; }
+  .anchor { font-size: 0.7em; color: #bbb; margin-left: 0.5em; font-weight: normal; display: none; user-select: text; }
   [id]:hover > .anchor { display: inline; }
 </style>
 </head>
@@ -82,12 +88,31 @@ Use semantic `id` attributes on every heading and list item so sections and chec
 </ul>
 <!-- Repeat phase blocks as needed. data-step values are globally unique and never renumbered. -->
 <script>
-document.querySelectorAll('[id]').forEach(el => {
+const COLORS = ['#2563eb','#16a34a','#9333ea','#dc2626','#d97706','#0891b2'];
+const h2s = [...document.querySelectorAll('h2[id]')];
+h2s.forEach((h, i) => { h.style.color = COLORS[i % COLORS.length]; });
+
+const nav = document.createElement('nav');
+nav.className = 'toc';
+nav.innerHTML = '<p>Contents</p>';
+const ol = document.createElement('ol');
+h2s.forEach((h, i) => {
+  const li = document.createElement('li');
   const a = document.createElement('a');
-  a.href = '#' + el.id;
-  a.className = 'anchor';
-  a.textContent = '#' + el.id;
-  el.appendChild(a);
+  a.href = '#' + h.id;
+  a.textContent = h.childNodes[0].textContent.trim();
+  a.style.color = COLORS[i % COLORS.length];
+  li.appendChild(a);
+  ol.appendChild(li);
+});
+nav.appendChild(ol);
+document.querySelector('h1').insertAdjacentElement('afterend', nav);
+
+document.querySelectorAll('[id]').forEach(el => {
+  const s = document.createElement('span');
+  s.className = 'anchor';
+  s.textContent = '#' + el.id;
+  el.appendChild(s);
 });
 </script>
 </body>
