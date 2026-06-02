@@ -1,42 +1,40 @@
 ---
 name: replot
-description: Continuation of phase 2 of the agentic coding workflow. Reads annotations from an existing proposal document, resolves them with the user, and rewrites the proposal in place. No code is written.
+description: Continuation of phase 2 of the agentic coding workflow. Reads element-referenced feedback from the user, applies it to the proposal document, renumbers, and iterates until approved. No code is written.
 ---
 
-The user wants to revise an existing proposal by processing inline annotations. Your job is to read the annotations, resolve any that are ambiguous, rewrite the proposal in place, and iterate until the user approves. Do **not** write any production or test code.
+The user wants to revise an existing proposal using element-referenced feedback. Your job is to read their corrections (which reference `§ID` numbers), apply them, renumber the document, overwrite it, and iterate until the user approves. Do **not** write any production or test code.
 
 ## Locate the proposal
 
-Locate the proposal document in `<git-repo-root>/doc/work-sessions/`. If not obvious, ask the user which proposal to implement.
+Locate the proposal document (`.html`) in `<git-repo-root>/doc/work-sessions/`. If not obvious, ask the user which proposal to revise.
 
-## Extract annotations
+## Collect feedback
 
-Read the proposal file in full. Collect every occurrence of the pattern `UPPERCASE_WORD:` — one or more uppercase letters followed by a colon — anywhere in the document.
-
-Common examples:
+Ask the user for their feedback if they haven't already provided it. The user references proposal elements by `#ID` number — for example:
 
 ```
-PROBLEM: this won't work if the service is unavailable
-QUESTION: should we use X or Y here?
-CORRECTION: wrong file path — it lives under src/api/
-TODO: add a rollback step
-NOTE: double-check this with the team
+#3: rewrite this paragraph to explain the caching strategy
+#12–#14: replace these three steps with a single migration step
+#7: remove this entirely
 ```
 
-## Resolve annotations
+## Resolve feedback
 
-For each annotation found:
+For each referenced item:
 
 - **If the intent is clear** — queue the change; no need to ask.
-- **If the intent is ambiguous** — do not guess. Collect all ambiguous annotations and ask the user about them in a single message before proceeding. Do not ask one question per annotation.
+- **If the intent is ambiguous** — do not guess. Collect all ambiguous items and ask the user about them in a single message before proceeding. Do not ask one question per item.
 
-Once all annotations are understood, apply every change to the proposal. Revisions may touch any section: Background, Approach, Trade-offs & Risks, or the Implementation Checklist. Remove each resolved annotation from the document after incorporating it.
+## Apply changes and renumber
 
-## Rewrite and iterate
+1. Apply every queued change to the proposal.
+2. Renumber all block element `id` attributes (`<h1>`, `<h2>`, `<h3>`, `<p>`, `<li>`, `<pre>`, `<blockquote>`) sequentially from `1`, with no gaps.
+3. Overwrite the proposal file in place.
 
-After applying all changes, write the revised proposal back to the same file (overwrite in place).
+## Iterate
 
-Then ask the user to review the updated proposal and add new annotations if needed. Repeat this cycle — extract, resolve, rewrite — until the user explicitly approves the proposal. Approval can be a statement in chat or an invocation of `/engage`.
+Tell the user the file has been updated and ask them to review it. If they have more feedback, repeat the cycle — collect, resolve, apply, renumber, overwrite. Continue until the user explicitly approves the proposal or invokes `/engage`.
 
 ## Hard constraints
 
