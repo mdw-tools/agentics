@@ -6,7 +6,7 @@ Analysis skills, named after Lt. Commander Data.
 
 ### scan-branches
 
-Compare two git branches. Summarizes differences and flags concerns (bugs, security, style, inconsistencies).
+Compare two git branches. Summarizes differences and flags concerns (bugs, security, style, inconsistencies). Produces an HTML report in the project's `doc/work-sessions/` directory with semantic `#id` anchors on each finding for easy reference in conversation.
 
 **Usage:**
 

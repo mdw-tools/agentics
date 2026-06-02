@@ -30,9 +30,9 @@ plugins/
 
 Three-phase agentic coding workflow — **never write code until a written plan is approved**:
 
-1. `/scan` — Research only. Produces `doc/work-sessions/<yyyy>/<yyyy-mm-dd_hh-mm-ss>-scan-<desc>.md`. No solutions proposed.
-2. `/plot` — Proposal with TDD checklist. Produces `doc/work-sessions/<yyyy>/<yyyy-mm-dd_hh-mm-ss>-proposal-<desc>.md`. Iterates with user until approved.
-3. `/replot` — Reads `UPPERCASE_WORD:` annotations from an existing proposal, resolves them with the user, and rewrites the proposal in place. No code written.
-4. `/engage` — Executes the approved checklist one item at a time, marking each `[x]` in the proposal document as it completes.
+1. `/scan` — Research only. Produces `doc/work-sessions/<yyyy>/<yyyy-mm-dd_hh-mm-ss>-research-<desc>.html`. No solutions proposed.
+2. `/plot` — Proposal with TDD checklist. Produces `doc/work-sessions/<yyyy>/<yyyy-mm-dd_hh-mm-ss>-proposal-<desc>.html`. Includes a **Your Turn** section reserving the most interesting production-code step for the user. Iterates with user until approved.
+3. `/replot` — The user references proposal elements by `#id` in chat; the agent applies the changes and overwrites the file. No code written.
+4. `/engage` — Executes the approved checklist one item at a time, marking each item complete in the proposal document as it finishes. Pauses at the **Your Turn** step for the user to implement.
 
 Work session documents are stored in the consuming repo's `doc/work-sessions/` tree, creating a durable record of reasoning.
