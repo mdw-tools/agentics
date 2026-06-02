@@ -30,12 +30,19 @@ Use semantic `id` attributes on every heading and list item so sections and chec
 <meta charset="UTF-8">
 <title>Proposal: <Topic></title>
 <style>
-  body { font-family: sans-serif; max-width: 900px; margin: 2em auto; padding: 0 1em; }
-  [id]::before { content: "#" attr(id) " "; font-size: 0.75em; color: #aaa; }
-  li[id] { list-style: none; }
-  pre { background: #f5f5f5; padding: 1em; overflow-x: auto; }
-  .done { opacity: 0.5; text-decoration: line-through; }
-  .user-turn { border-left: 3px solid #f90; padding-left: 0.5em; background: #fffbe6; }
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 860px; margin: 3em auto; padding: 0 1.5em; color: #1a1a1a; line-height: 1.65; }
+  h1 { font-size: 1.8em; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.3em; }
+  h2 { font-size: 1.2em; color: #333; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+  h3 { font-size: 1em; color: #555; font-weight: 600; margin-top: 1.5em; }
+  pre { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: 1em 1.2em; overflow-x: auto; font-size: 0.9em; }
+  code { background: #f0f0f0; padding: 0.15em 0.35em; border-radius: 3px; font-size: 0.9em; }
+  pre code { background: none; padding: 0; }
+  ul, ol { padding-left: 1.5em; }
+  li { margin: 0.4em 0; }
+  .done { opacity: 0.45; text-decoration: line-through; }
+  .user-turn { border-left: 3px solid #f90; padding-left: 0.75em; background: #fffcf0; border-radius: 0 4px 4px 0; }
+  .anchor { font-size: 0.7em; color: #bbb; margin-left: 0.5em; font-weight: normal; display: none; text-decoration: none; user-select: text; cursor: copy; }
+  [id]:hover > .anchor { display: inline; }
 </style>
 </head>
 <body>
@@ -66,23 +73,32 @@ Use semantic `id` attributes on every heading and list item so sections and chec
 
 <h2 id="checklist">Implementation Checklist</h2>
 
-<h3 id="phase-<slug>">Phase 1: <name></h3>
+<h3>Phase 1: <name></h3>
 <ul>
-  <li id="step-1"><input type="checkbox"> Write test for &lt;behavior&gt; — expect failure: &lt;reason&gt;</li>
-  <li id="step-2"><input type="checkbox"> Run tests, confirm failure</li>
-  <li id="step-3" class="user-turn"><input type="checkbox"> &#x1F91D; Implement &lt;behavior&gt; — see #your-turn for guidance</li>
-  <li id="step-4"><input type="checkbox"> Run tests, confirm passing</li>
+  <li data-step="1"><input type="checkbox"> Write test for &lt;behavior&gt; — expect failure: &lt;reason&gt;</li>
+  <li data-step="2"><input type="checkbox"> Run tests, confirm failure</li>
+  <li data-step="3" class="user-turn"><input type="checkbox"> &#x1F91D; Implement &lt;behavior&gt; — see #your-turn for guidance</li>
+  <li data-step="4"><input type="checkbox"> Run tests, confirm passing</li>
 </ul>
-<!-- Repeat phase blocks as needed. Step IDs are globally unique and never renumbered. -->
+<!-- Repeat phase blocks as needed. data-step values are globally unique and never renumbered. -->
+<script>
+document.querySelectorAll('[id]').forEach(el => {
+  const a = document.createElement('a');
+  a.href = '#' + el.id;
+  a.className = 'anchor';
+  a.textContent = '#' + el.id;
+  el.appendChild(a);
+});
+</script>
 </body>
 </html>
 ```
 
 ### ID conventions
 
-- **Section headings** (`<h2>`): fixed semantic IDs — `title`, `background`, `approach`, `tradeoffs`, `your-turn`, `checklist`.
-- **Phase headings** (`<h3>`): `phase-<slug>` derived from the phase name (e.g., `id="phase-data-model"`).
-- **Checklist steps** (`<li>` inside the checklist): `step-N` where N is a globally unique integer assigned in order at document creation. **Never renumber existing steps.** When steps are added later, assign the next available number.
+- **Section headings** (`<h2>`, `<h3>` under `#your-turn`): fixed semantic IDs — `title`, `background`, `approach`, `tradeoffs`, `your-turn`, `your-turn-task`, `your-turn-context`, `your-turn-success`, `checklist`.
+- **Phase headings** (`<h3>` inside the checklist): no `id` — they are structural groupings only.
+- **Checklist steps** (`<li>` inside the checklist): `data-step="N"` where N is a globally unique integer assigned in order at document creation. **Never renumber existing steps.** When steps are added later, assign the next available number.
 - **Paragraphs** (`<p>`): no `id` needed; reference by containing section.
 
 ## Implementation Checklist requirements

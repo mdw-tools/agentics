@@ -34,10 +34,17 @@ Use semantic `id` attributes on every heading and list item so sections can be r
 <meta charset="UTF-8">
 <title>Research: <Topic></title>
 <style>
-  body { font-family: sans-serif; max-width: 900px; margin: 2em auto; padding: 0 1em; }
-  [id]::before { content: "#" attr(id) " "; font-size: 0.75em; color: #aaa; }
-  li[id] { list-style: none; }
-  pre { background: #f5f5f5; padding: 1em; overflow-x: auto; }
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 860px; margin: 3em auto; padding: 0 1.5em; color: #1a1a1a; line-height: 1.65; }
+  h1 { font-size: 1.8em; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.3em; }
+  h2 { font-size: 1.2em; color: #333; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+  h3 { font-size: 1em; color: #555; font-weight: 600; margin-top: 1.5em; }
+  pre { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: 1em 1.2em; overflow-x: auto; font-size: 0.9em; }
+  code { background: #f0f0f0; padding: 0.15em 0.35em; border-radius: 3px; font-size: 0.9em; }
+  pre code { background: none; padding: 0; }
+  ul, ol { padding-left: 1.5em; }
+  li { margin: 0.4em 0; }
+  .anchor { font-size: 0.7em; color: #bbb; margin-left: 0.5em; font-weight: normal; display: none; text-decoration: none; user-select: text; cursor: copy; }
+  [id]:hover > .anchor { display: inline; }
 </style>
 </head>
 <body>
@@ -64,6 +71,15 @@ Use semantic `id` attributes on every heading and list item so sections can be r
 <ul>
   <li id="ref-1">...</li>
 </ul>
+<script>
+document.querySelectorAll('[id]').forEach(el => {
+  const a = document.createElement('a');
+  a.href = '#' + el.id;
+  a.className = 'anchor';
+  a.textContent = '#' + el.id;
+  el.appendChild(a);
+});
+</script>
 </body>
 </html>
 ```

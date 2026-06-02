@@ -31,10 +31,10 @@ For each referenced item:
 ## Apply changes
 
 1. Apply every queued change to the proposal.
-2. For any **newly added** elements, assign IDs following these conventions:
-   - New checklist steps: `step-N` where N is one more than the highest existing step number.
-   - New list items in other sections: `<section-id>-N` continuing from the highest existing N in that section.
-   - New phase headings: `phase-<slug>` derived from the phase name.
+2. For any **newly added** elements:
+   - New checklist steps use `data-step="N"` where N is one more than the highest existing step number. **Never renumber or change existing `data-step` values.**
+   - New phase headings (`<h3>` inside the checklist) get no `id`.
+   - New section headings (`<h2>`) and their sub-headings under `#your-turn` keep semantic `id` attributes following the existing naming convention.
 3. **Never renumber or change the IDs of existing elements.**
 4. Overwrite the proposal file in place.
 
