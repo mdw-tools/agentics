@@ -130,4 +130,4 @@ document.querySelectorAll('[id]').forEach(el => {
 - **List items**: `<section-id>-N` where N counts up from 1 within the section (e.g., `id="concern-1"`).
 - **Paragraphs** (`<p>`): no `id` needed; reference by containing section.
 
-Tell the user where the file was written.
+Tell the user where the file was written. Emit the full path on its own line, then emit a `file://` URL on the next line.

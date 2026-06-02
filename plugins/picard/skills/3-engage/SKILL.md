@@ -61,4 +61,4 @@ Follow the red/green cycle prescribed in the checklist:
 
 ## When you finish
 
-Report which checklist items were completed, note any deviations from the proposal (and why), and flag anything that should be cleaned up or followed up on.
+Report which checklist items were completed, note any deviations from the proposal (and why), and flag anything that should be cleaned up or followed up on. Emit the full path to the proposal document on its own line, then emit a `file://` URL on the next line.

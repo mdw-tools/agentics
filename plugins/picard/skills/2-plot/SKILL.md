@@ -151,6 +151,6 @@ Mark that step with `class="user-turn"` and the 🤝 emoji prefix in the checkli
 
 ## Iteration
 
-After writing the document, ask the user to review it and provide feedback in chat.
+After writing the document, emit the full path on its own line, then emit a `file://` URL on the next line. Ask the user to review it and provide feedback in chat.
 
 The user references elements by `#id` (e.g., `#approach: rewrite to explain the caching strategy`, `#step-3: remove this step`). Apply their feedback to the document, assign IDs to any newly-added elements following the conventions above, and overwrite the file. Do **not** renumber existing elements. Repeat until they explicitly approve.

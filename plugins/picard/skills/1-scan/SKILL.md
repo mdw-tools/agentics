@@ -117,4 +117,4 @@ document.querySelectorAll('[id]').forEach(el => {
 
 ## After writing the document
 
-Tell the user where the file was written and ask them to review it before proceeding to the proposal phase.
+Tell the user where the file was written. Emit the full path on its own line, then emit a `file://` URL on the next line. Ask them to review the document before proceeding to the proposal phase.

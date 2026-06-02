@@ -40,7 +40,7 @@ For each referenced item:
 
 ## Iterate
 
-Tell the user the file has been updated and ask them to review it. If they have more feedback, repeat the cycle — collect, resolve, apply, overwrite. Continue until the user explicitly approves the proposal or invokes `/engage`.
+Tell the user the file has been updated. Emit the full path on its own line, then emit a `file://` URL on the next line. Ask them to review it. If they have more feedback, repeat the cycle — collect, resolve, apply, overwrite. Continue until the user explicitly approves the proposal or invokes `/engage`.
 
 ## Hard constraints
 
