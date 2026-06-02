@@ -21,7 +21,7 @@ If a research document for this topic exists in the same `doc/work-sessions/<yyy
 
 ## Document structure
 
-Assign a sequential integer `id` to every block element (`<h1>`, `<h2>`, `<h3>`, `<p>`, `<li>`, `<pre>`, `<blockquote>`), starting at `1` and incrementing without gaps. Use this structure as a template:
+Use semantic `id` attributes on every heading and list item so sections and checklist steps can be referenced in conversation by `#id`. Use this structure as a template:
 
 ```html
 <!DOCTYPE html>
@@ -38,31 +38,38 @@ Assign a sequential integer `id` to every block element (`<h1>`, `<h2>`, `<h3>`,
 </style>
 </head>
 <body>
-<h1 id="1">Proposal: <Topic></h1>
+<h1 id="title">Proposal: <Topic></h1>
 
-<h2 id="2">Background</h2>
-<p id="3">Why this work is needed; relevant context.</p>
+<h2 id="background">Background</h2>
+<p>Why this work is needed; relevant context.</p>
 
-<h2 id="4">Approach</h2>
-<p id="5">Detailed description of the chosen approach.</p>
+<h2 id="approach">Approach</h2>
+<p>Detailed description of the chosen approach.</p>
 <!-- Include key design decisions, alternatives considered, code snippets, file paths. -->
 
-<h2 id="6">Trade-offs &amp; Risks</h2>
-<p id="7">Honest assessment of downsides, open questions, or unknowns.</p>
+<h2 id="tradeoffs">Trade-offs &amp; Risks</h2>
+<p>Honest assessment of downsides, open questions, or unknowns.</p>
 
-<h2 id="8">Implementation Checklist</h2>
+<h2 id="checklist">Implementation Checklist</h2>
 
-<h3 id="9">Phase 1: <name></h3>
+<h3 id="phase-<slug>">Phase 1: <name></h3>
 <ul>
-  <li id="10"><input type="checkbox"> Write test for &lt;behavior&gt; — expect failure: &lt;reason&gt;</li>
-  <li id="11"><input type="checkbox"> Run tests, confirm failure</li>
-  <li id="12"><input type="checkbox"> Implement &lt;behavior&gt;</li>
-  <li id="13"><input type="checkbox"> Run tests, confirm passing</li>
+  <li id="step-1"><input type="checkbox"> Write test for &lt;behavior&gt; — expect failure: &lt;reason&gt;</li>
+  <li id="step-2"><input type="checkbox"> Run tests, confirm failure</li>
+  <li id="step-3"><input type="checkbox"> Implement &lt;behavior&gt;</li>
+  <li id="step-4"><input type="checkbox"> Run tests, confirm passing</li>
 </ul>
-<!-- Repeat phase blocks as needed; keep all IDs sequential. -->
+<!-- Repeat phase blocks as needed. Step IDs are globally unique and never renumbered. -->
 </body>
 </html>
 ```
+
+### ID conventions
+
+- **Section headings** (`<h2>`): fixed semantic IDs — `title`, `background`, `approach`, `tradeoffs`, `checklist`.
+- **Phase headings** (`<h3>`): `phase-<slug>` derived from the phase name (e.g., `id="phase-data-model"`).
+- **Checklist steps** (`<li>` inside the checklist): `step-N` where N is a globally unique integer assigned in order at document creation. **Never renumber existing steps.** When steps are added later, assign the next available number.
+- **Paragraphs** (`<p>`): no `id` needed; reference by containing section.
 
 ## Implementation Checklist requirements
 
@@ -73,12 +80,10 @@ The checklist must be detailed and actionable. Each item should be a concrete, v
 3. Write or modify production code to make the test pass
 4. Run the tests again — confirm they pass
 
-Group related steps into named phases (`<h3>` headings). Each checklist item is an `<li>` with `<input type="checkbox">` and a unique sequential `id`.
+Group related steps into named phases (`<h3>` headings).
 
 ## Iteration
 
-After writing the document, ask the user to review it and provide feedback.
+After writing the document, ask the user to review it and provide feedback in chat.
 
-**In-session feedback** — the user references elements by their `#ID` numbers in chat (e.g., "#12: change this to use Y instead"). Update the proposal document to reflect their feedback, renumber all block elements sequentially from `1`, overwrite the file, and repeat until they explicitly approve. Do **not** start implementing.
-
-**Out-of-session feedback** — the user invokes `/replot`, which reads their chat-referenced corrections, applies them, renumbers, and returns to a wait-for-approval state.
+The user references elements by `#id` (e.g., `#approach: rewrite to explain the caching strategy`, `#step-3: remove this step`). Apply their feedback to the document, assign IDs to any newly-added elements following the conventions above, and overwrite the file. Do **not** renumber existing elements. Repeat until they explicitly approve.

@@ -48,7 +48,7 @@ Determine the git repo root (use `git rev-parse --show-toplevel`), then write th
 
 ## HTML format
 
-Assign a sequential integer `id` to every block element (`<h1>`, `<h2>`, `<h3>`, `<p>`, `<li>`, `<pre>`, `<blockquote>`), starting at `1` and incrementing without gaps. Use this structure as a template:
+Use semantic `id` attributes on every heading and list item so sections and findings can be referenced in conversation by `#id`. Use this structure as a template:
 
 ```html
 <!DOCTYPE html>
@@ -64,23 +64,29 @@ Assign a sequential integer `id` to every block element (`<h1>`, `<h2>`, `<h3>`,
 </style>
 </head>
 <body>
-<h1 id="1">Branch Scan: <base> vs <compare></h1>
+<h1 id="title">Branch Scan: <base> vs <compare></h1>
 
-<h2 id="2">Summary</h2>
-<p id="3"><!-- high-level summary of what changed --></p>
+<h2 id="summary">Summary</h2>
+<p><!-- high-level summary of what changed --></p>
 
-<h2 id="4">Changed Files</h2>
+<h2 id="changed-files">Changed Files</h2>
 <ul>
-  <li id="5"><!-- one entry per changed file with a brief note --></li>
+  <li id="change-1"><!-- one entry per changed file with a brief note --></li>
 </ul>
 
-<h2 id="6">Concerns</h2>
+<h2 id="concerns">Concerns</h2>
 <!-- Omit this section entirely if there are no concerns. -->
 <ul>
-  <li id="7"><!-- one concern per item --></li>
+  <li id="concern-1"><!-- one concern per item --></li>
 </ul>
 </body>
 </html>
 ```
+
+### ID conventions
+
+- **Headings** (`<h1>`, `<h2>`, `<h3>`): lowercase, hyphenated slug of the heading text (e.g., `id="changed-files"`).
+- **List items**: `<section-id>-N` where N counts up from 1 within the section (e.g., `id="concern-1"`).
+- **Paragraphs** (`<p>`): no `id` needed; reference by containing section.
 
 Tell the user where the file was written.

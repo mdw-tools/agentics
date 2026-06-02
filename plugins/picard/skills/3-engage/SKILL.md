@@ -16,7 +16,7 @@ Read the entire proposal, especially the **Implementation Checklist**, before wr
 - Work through checklist items **one at a time, in order**. Do not skip to later checklist items. Do not combine checklist items.
 - For each checklist item, follow this exact sequence:
   1. Do the work (write/edit code, run tests, etc.)
-  2. **Immediately call the Edit tool to mark that item complete in the proposal document.** Add `class="done"` to the `<li>` and `checked` to its `<input type="checkbox">`. This Edit call must happen in the same response as the work, before any tool calls for the next item. Do not batch mark-offs.
+  2. **Immediately call the Edit tool to mark that item complete in the proposal document.** Find the `<li id="step-N">` for the completed step, add `class="done"` to the `<li>`, and add `checked` to its `<input type="checkbox">`. This Edit call must happen in the same response as the work, before any tool calls for the next item. Do not batch mark-offs.
 - Run tests continuously throughout. Do not let a phase accumulate failures.
 - Write minimal comments — only where the logic is non-obvious.
 

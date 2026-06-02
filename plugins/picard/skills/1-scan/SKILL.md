@@ -25,7 +25,7 @@ Determine the git repo root (use `git rev-parse --show-toplevel`), then write th
 
 ## Document structure
 
-Assign a sequential integer `id` to every block element (`<h1>`, `<h2>`, `<h3>`, `<p>`, `<li>`, `<pre>`, `<blockquote>`), starting at `1` and incrementing without gaps. Use this structure as a template:
+Use semantic `id` attributes on every heading and list item so sections can be referenced in conversation by `#id`. Use this structure as a template:
 
 ```html
 <!DOCTYPE html>
@@ -41,32 +41,38 @@ Assign a sequential integer `id` to every block element (`<h1>`, `<h2>`, `<h3>`,
 </style>
 </head>
 <body>
-<h1 id="1">Research: <Topic></h1>
+<h1 id="title">Research: <Topic></h1>
 
-<h2 id="2">Topic</h2>
-<p id="3">One-sentence statement of what was researched.</p>
+<h2 id="topic">Topic</h2>
+<p>One-sentence statement of what was researched.</p>
 
-<h2 id="4">Context</h2>
-<p id="5">Why this matters; what problem it relates to.</p>
+<h2 id="context">Context</h2>
+<p>Why this matters; what problem it relates to.</p>
 
-<h2 id="6">Findings</h2>
+<h2 id="findings">Findings</h2>
 
-<h3 id="7"><Sub-topic></h3>
-<p id="8">...</p>
-<!-- Repeat <h3>/<p>/<pre>/<ul> blocks as needed; keep all IDs sequential. -->
+<h3 id="findings-<slug>"><Sub-topic></h3>
+<p>...</p>
+<!-- Repeat <h3> blocks as needed. Derive each id from the sub-topic heading text. -->
 
-<h2 id="N">Open Questions</h2>
+<h2 id="open-questions">Open Questions</h2>
 <ul>
-  <li id="N+1"><!-- one question per item --></li>
+  <li id="oq-1">...</li>
 </ul>
 
-<h2 id="N+2">References</h2>
+<h2 id="references">References</h2>
 <ul>
-  <li id="N+3"><!-- one reference per item --></li>
+  <li id="ref-1">...</li>
 </ul>
 </body>
 </html>
 ```
+
+### ID conventions
+
+- **Headings** (`<h1>`, `<h2>`, `<h3>`): lowercase, hyphenated slug of the heading text (e.g., `id="findings-session-tokens"`).
+- **List items**: `<section-id>-N` where N counts up from 1 within the section (e.g., `id="oq-1"`, `id="ref-2"`).
+- **Paragraphs** (`<p>`): no `id` needed; reference by containing section.
 
 ## After writing the document
 
