@@ -20,6 +20,18 @@ Read the entire proposal, especially the **Implementation Checklist**, before wr
 - Run tests continuously throughout. Do not let a phase accumulate failures.
 - Write minimal comments — only where the logic is non-obvious.
 
+## Your Turn step
+
+If the proposal contains a `#your-turn` section, one checklist step will have `class="user-turn"` — this step is reserved for the user to implement.
+
+When you reach that step:
+
+1. Do **not** implement it yourself.
+2. Remind the user it's their turn and point them to `#your-turn` for guidance.
+3. Stop. Do not proceed to subsequent checklist items.
+
+Resume only after the user reports they've finished the step. Verify by running tests before marking the step done and continuing.
+
 ## When the user takes over a step
 
 If the user denies a tool call or says they'll perform a step themselves

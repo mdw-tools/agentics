@@ -35,6 +35,7 @@ Use semantic `id` attributes on every heading and list item so sections and chec
   li[id] { list-style: none; }
   pre { background: #f5f5f5; padding: 1em; overflow-x: auto; }
   .done { opacity: 0.5; text-decoration: line-through; }
+  .user-turn { border-left: 3px solid #f90; padding-left: 0.5em; background: #fffbe6; }
 </style>
 </head>
 <body>
@@ -50,13 +51,26 @@ Use semantic `id` attributes on every heading and list item so sections and chec
 <h2 id="tradeoffs">Trade-offs &amp; Risks</h2>
 <p>Honest assessment of downsides, open questions, or unknowns.</p>
 
+<h2 id="your-turn">Your Turn</h2>
+<p>
+  The step marked &#x1F91D; in the checklist is reserved for you to implement.
+  It was chosen because it is the most interesting production-code contribution
+  in this proposal — the kind of work worth doing yourself.
+</p>
+<h3 id="your-turn-task">What to implement</h3>
+<p><!-- Describe exactly what needs to be written: function signature, struct fields, algorithm, etc. --></p>
+<h3 id="your-turn-context">Context and interfaces</h3>
+<p><!-- Key types, functions, or patterns already in the codebase that this code must fit into. Include file paths and line numbers. --></p>
+<h3 id="your-turn-success">What success looks like</h3>
+<p><!-- The test that will pass once the implementation is correct. What assertions it makes. --></p>
+
 <h2 id="checklist">Implementation Checklist</h2>
 
 <h3 id="phase-<slug>">Phase 1: <name></h3>
 <ul>
   <li id="step-1"><input type="checkbox"> Write test for &lt;behavior&gt; — expect failure: &lt;reason&gt;</li>
   <li id="step-2"><input type="checkbox"> Run tests, confirm failure</li>
-  <li id="step-3"><input type="checkbox"> Implement &lt;behavior&gt;</li>
+  <li id="step-3" class="user-turn"><input type="checkbox"> &#x1F91D; Implement &lt;behavior&gt; — see #your-turn for guidance</li>
   <li id="step-4"><input type="checkbox"> Run tests, confirm passing</li>
 </ul>
 <!-- Repeat phase blocks as needed. Step IDs are globally unique and never renumbered. -->
@@ -66,7 +80,7 @@ Use semantic `id` attributes on every heading and list item so sections and chec
 
 ### ID conventions
 
-- **Section headings** (`<h2>`): fixed semantic IDs — `title`, `background`, `approach`, `tradeoffs`, `checklist`.
+- **Section headings** (`<h2>`): fixed semantic IDs — `title`, `background`, `approach`, `tradeoffs`, `your-turn`, `checklist`.
 - **Phase headings** (`<h3>`): `phase-<slug>` derived from the phase name (e.g., `id="phase-data-model"`).
 - **Checklist steps** (`<li>` inside the checklist): `step-N` where N is a globally unique integer assigned in order at document creation. **Never renumber existing steps.** When steps are added later, assign the next available number.
 - **Paragraphs** (`<p>`): no `id` needed; reference by containing section.
@@ -81,6 +95,18 @@ The checklist must be detailed and actionable. Each item should be a concrete, v
 4. Run the tests again — confirm they pass
 
 Group related steps into named phases (`<h3>` headings).
+
+## Your Turn section
+
+Every proposal should designate exactly one checklist step as the user's to implement. Choose the step that is:
+
+- **Interesting** — the core logic, a non-trivial algorithm, or the most semantically meaningful production-code contribution
+- **Production code, not test code** — tests are boilerplate; the user's step should be the thing the tests are testing
+- **Scoped to one step** — don't bundle multiple steps; pick the single most valuable one
+
+Mark that step with `class="user-turn"` and the 🤝 emoji prefix in the checklist. Fill in the `#your-turn` section with enough detail that the user can succeed without additional research: exact function signatures, relevant types and file paths, and a description of what the passing test will assert.
+
+**Opt-out:** If the user says "skip the your-turn step" when requesting the proposal, or later via `#your-turn: remove this`, omit the `#your-turn` section entirely and remove the `class="user-turn"` designation from the checklist. The step becomes a normal agent-implemented step.
 
 ## Iteration
 
