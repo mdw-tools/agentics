@@ -3,7 +3,7 @@ name: replot
 description: Continuation of phase 2 of the agentic coding workflow. Reads element-referenced feedback from the user, applies it to the proposal document, and iterates until approved. No code is written.
 ---
 
-The user wants to revise an existing proposal using element-referenced feedback. Your job is to read their corrections, apply them, overwrite the file, and iterate until the user approves. Do **not** write any production or test code.
+The user wants to revise an existing proposal based on some feedback. Your job is to read their corrections, apply them, overwrite the file, and iterate until the user approves. Do **not** write any production or test code.
 
 ## Locate the proposal
 
@@ -11,32 +11,18 @@ Locate the proposal document (`.html`) in `<git-repo-root>/doc/work-sessions/`. 
 
 ## Collect feedback
 
-Ask the user for their feedback if they haven't already provided it. The user references proposal elements by `#id` — for example:
-
-```
-#approach: rewrite to explain the caching strategy in more detail
-#phase-data-model: split this into two phases — schema first, then migrations
-#step-3: remove this step
-```
-
-For finer-grained feedback within a section, the user describes the content: `#approach: the paragraph about rollbacks should mention the --dry-run flag`.
+Search for HTML comments in the document. These will have user feedback. Or perhaps the user will have provided feedback in the prompt that invoked this skill.
 
 ## Resolve feedback
 
-For each referenced item:
+For each referenced item of feedback:
 
 - **If the intent is clear** — queue the change; no need to ask.
 - **If the intent is ambiguous** — do not guess. Collect all ambiguous items and ask the user about them in a single message before proceeding. Do not ask one question per item.
 
 ## Apply changes
 
-1. Apply every queued change to the proposal.
-2. For any **newly added** elements:
-   - New checklist steps use `data-step="N"` where N is one more than the highest existing step number. **Never renumber or change existing `data-step` values.**
-   - New phase headings (`<h3>` inside the checklist) get no `id`.
-   - New section headings (`<h2>`) and their sub-headings under `#your-turn` keep semantic `id` attributes following the existing naming convention.
-3. **Never renumber or change the IDs of existing elements.**
-4. Overwrite the proposal file in place.
+Apply every queued change to the proposal, removing the feedback comments as you go.
 
 ## Iterate
 
@@ -44,5 +30,5 @@ Tell the user the file has been updated. Emit the full path on its own line, the
 
 ## Hard constraints
 
-- Do **not** write any production or test code at any point.
+- Do **not** write any production or test code at any point, except as snippets in this document.
 - Do **not** start implementation even if the user says the proposal looks good in passing — wait for an unambiguous approval or an explicit `/engage` invocation.

@@ -19,112 +19,14 @@ Determine the git repo root (use `git rev-parse --show-toplevel`), then create t
 
 If a research document for this topic exists in the same `doc/work-sessions/<yyyy>/` directory, read it before writing the proposal.
 
-## Document structure
+## Suggested Document Contents
 
-Use semantic `id` attributes on every heading and list item so sections and checklist steps can be referenced in conversation by `#id`. Use this structure as a template:
+- Background (Why this work is needed; relevant context.)
+- Approach (Detailed description of the chosen approach.)
+- Trade-offs (Honest assessment of downsides, open questions, or unknowns.)
+- Implementation checklists
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Proposal: <Topic></title>
-<style>
-  body { font-family: system-ui, -apple-system, sans-serif; max-width: 860px; margin: 3em auto; padding: 0 1.5em; color: #1a1a1a; line-height: 1.65; }
-  h1 { font-size: 1.8em; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.3em; }
-  h2 { font-size: 1.2em; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
-  nav.toc { background: #f8f8f8; border: 1px solid #e8e8e8; border-radius: 6px; padding: 0.8em 1.4em 0.9em; margin: 1.5em 0 2em; display: inline-block; min-width: 180px; }
-  nav.toc p { font-size: 0.75em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; margin: 0 0 0.5em; }
-  nav.toc ol { margin: 0; padding-left: 1.2em; }
-  nav.toc li { margin: 0.2em 0; }
-  nav.toc a { font-size: 0.95em; text-decoration: none; }
-  nav.toc a:hover { text-decoration: underline; }
-  h3 { font-size: 1em; color: #555; font-weight: 600; margin-top: 1.5em; }
-  pre { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: 1em 1.2em; overflow-x: auto; font-size: 0.9em; }
-  code { background: #f0f0f0; padding: 0.15em 0.35em; border-radius: 3px; font-size: 0.9em; }
-  pre code { background: none; padding: 0; }
-  ul, ol { padding-left: 1.5em; }
-  li { margin: 0.4em 0; }
-  .done { opacity: 0.45; text-decoration: line-through; }
-  .user-turn { border-left: 3px solid #f90; padding-left: 0.75em; background: #fffcf0; border-radius: 0 4px 4px 0; }
-  .anchor { font-size: 0.7em; color: #bbb; margin-left: 0.5em; font-weight: normal; display: none; user-select: text; }
-  [id]:hover > .anchor { display: inline; }
-</style>
-</head>
-<body>
-<h1 id="title">Proposal: <Topic></h1>
-
-<h2 id="background">Background</h2>
-<p>Why this work is needed; relevant context.</p>
-
-<h2 id="approach">Approach</h2>
-<p>Detailed description of the chosen approach.</p>
-<!-- Include key design decisions, alternatives considered, code snippets, file paths. -->
-
-<h2 id="tradeoffs">Trade-offs &amp; Risks</h2>
-<p>Honest assessment of downsides, open questions, or unknowns.</p>
-
-<h2 id="your-turn">Your Turn</h2>
-<p>
-  The step marked &#x1F91D; in the checklist is reserved for you to implement.
-  It was chosen because it is the most interesting production-code contribution
-  in this proposal — the kind of work worth doing yourself.
-</p>
-<h3 id="your-turn-task">What to implement</h3>
-<p><!-- Describe exactly what needs to be written: function signature, struct fields, algorithm, etc. --></p>
-<h3 id="your-turn-context">Context and interfaces</h3>
-<p><!-- Key types, functions, or patterns already in the codebase that this code must fit into. Include file paths and line numbers. --></p>
-<h3 id="your-turn-success">What success looks like</h3>
-<p><!-- The test that will pass once the implementation is correct. What assertions it makes. --></p>
-
-<h2 id="checklist">Implementation Checklist</h2>
-
-<h3>Phase 1: <name></h3>
-<ul>
-  <li data-step="1"><input type="checkbox"> Write test for &lt;behavior&gt; — expect failure: &lt;reason&gt;</li>
-  <li data-step="2"><input type="checkbox"> Run tests, confirm failure</li>
-  <li data-step="3" class="user-turn"><input type="checkbox"> &#x1F91D; Implement &lt;behavior&gt; — see #your-turn for guidance</li>
-  <li data-step="4"><input type="checkbox"> Run tests, confirm passing</li>
-</ul>
-<!-- Repeat phase blocks as needed. data-step values are globally unique and never renumbered. -->
-<script>
-const COLORS = ['#2563eb','#16a34a','#9333ea','#dc2626','#d97706','#0891b2'];
-const h2s = [...document.querySelectorAll('h2[id]')];
-h2s.forEach((h, i) => { h.style.color = COLORS[i % COLORS.length]; });
-
-const nav = document.createElement('nav');
-nav.className = 'toc';
-nav.innerHTML = '<p>Contents</p>';
-const ol = document.createElement('ol');
-h2s.forEach((h, i) => {
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  a.href = '#' + h.id;
-  a.textContent = h.childNodes[0].textContent.trim();
-  a.style.color = COLORS[i % COLORS.length];
-  li.appendChild(a);
-  ol.appendChild(li);
-});
-nav.appendChild(ol);
-document.querySelector('h1').insertAdjacentElement('afterend', nav);
-
-document.querySelectorAll('[id]').forEach(el => {
-  const s = document.createElement('span');
-  s.className = 'anchor';
-  s.textContent = '#' + el.id;
-  el.appendChild(s);
-});
-</script>
-</body>
-</html>
-```
-
-### ID conventions
-
-- **Section headings** (`<h2>`, `<h3>` under `#your-turn`): fixed semantic IDs — `title`, `background`, `approach`, `tradeoffs`, `your-turn`, `your-turn-task`, `your-turn-context`, `your-turn-success`, `checklist`.
-- **Phase headings** (`<h3>` inside the checklist): no `id` — they are structural groupings only.
-- **Checklist steps** (`<li>` inside the checklist): `data-step="N"` where N is a globally unique integer assigned in order at document creation. **Never renumber existing steps.** When steps are added later, assign the next available number.
-- **Paragraphs** (`<p>`): no `id` needed; reference by containing section.
+Present the information in whatever way or style feels appropriate. Use rich content like images, diagrams, code snippets, appropriate fonts, etc.
 
 ## Implementation Checklist requirements
 
@@ -135,22 +37,19 @@ The checklist must be detailed and actionable. Each item should be a concrete, v
 3. Write or modify production code to make the test pass
 4. Run the tests again — confirm they pass
 
-Group related steps into named phases (`<h3>` headings).
+Group related steps into named phases.
 
 ## Your Turn section
 
-Every proposal should designate exactly one checklist step as the user's to implement. Choose the step that is:
+Most proposals should designate a portion of the work for the human user to implement. Choose a portion of that work that is:
 
-- **Interesting** — the core logic, a non-trivial algorithm, or the most semantically meaningful production-code contribution
-- **Production code, not test code** — tests are boilerplate; the user's step should be the thing the tests are testing
-- **Scoped to one step** — don't bundle multiple steps; pick the single most valuable one
+- **Interesting** — the core logic, a non-trivial algorithm, or the most semantically meaningful production-code contribution.
+- **Not too difficult or time-consuming** - The user wants to get their 'hands dirty' in code, but not at the cost of too much delay.
 
-Mark that step with `class="user-turn"` and the 🤝 emoji prefix in the checklist. Fill in the `#your-turn` section with enough detail that the user can succeed without additional research: exact function signatures, relevant types and file paths, and a description of what the passing test will assert.
+Make sure there's a section in the document that includes some explanation about the user's portion of the work. Don't write the code for the user. Supply information about what behavior to build/model, perhaps method signatures of collaborating components that should be used, a description of what tests need to pass, etc.
 
-**Opt-out:** If the user says "skip the your-turn step" when requesting the proposal, or later via `#your-turn: remove this`, omit the `#your-turn` section entirely and remove the `class="user-turn"` designation from the checklist. The step becomes a normal agent-implemented step.
+**Opt-out:** If the user says "skip the your-turn step" when requesting the proposal, or later, then omit the "your-turn" section entirely. In that case that portion of work becomes a normal agent-implemented step.
 
 ## Iteration
 
 After writing the document, emit the full path on its own line, then emit a `file://` URL on the next line. Ask the user to review it and provide feedback in chat.
-
-The user references elements by `#id` (e.g., `#approach: rewrite to explain the caching strategy`, `#step-3: remove this step`). Apply their feedback to the document, assign IDs to any newly-added elements following the conventions above, and overwrite the file. Do **not** renumber existing elements. Repeat until they explicitly approve.
