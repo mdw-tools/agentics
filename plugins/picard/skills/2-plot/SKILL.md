@@ -28,6 +28,16 @@ If a research document for this topic exists in the same `doc/work-sessions/<yyy
 
 Present the information in whatever way or style feels appropriate. Use rich content like images, diagrams, code snippets, appropriate fonts, etc.
 
+### Diagrams
+
+The output is HTML, so **do not draw diagrams as ASCII/Unicode box art inside `<pre>` blocks.** Hand-drawn ASCII boxes reliably come out misaligned — edges don't line up, arrows drift, and the result looks garbled. Instead, use the actual capabilities of the medium:
+
+- **Prefer inline SVG** for boxes-and-arrows diagrams (architecture, data flow, state machines, sequence relationships). Draw `<rect>`/`<text>`/`<line>`/`<path>` (with marker-based arrowheads) at explicit coordinates so every edge is exactly straight and every connector lands precisely. This is the most reliable option for anything with connected nodes.
+- **Use styled HTML elements** (`<div>`/`<table>` with CSS borders, flexbox, or grid) for simpler layouts: a row of stages, a layered stack, a comparison grid. Let the browser align the edges instead of trying to align characters yourself.
+- **Only use a `<pre>` block** for content that is genuinely text: code snippets, file trees, directory listings, terminal output — not for boxes or arrows.
+
+When in doubt, reach for SVG. The goal is that every line is straight and every box is square without depending on monospace character alignment.
+
 ## Implementation Checklist requirements
 
 The checklist must be detailed and actionable. Each item should be a concrete, verifiable step. **Organize steps using a red/green TDD cycle wherever applicable:**
