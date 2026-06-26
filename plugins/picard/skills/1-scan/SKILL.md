@@ -23,4 +23,8 @@ Determine the git repo root (use `git rev-parse --show-toplevel`), then write th
 - `<yyyy-mm-dd_hh-mm-ss>` — run `date '+%Y-%m-%d_%H-%M-%S'` to get the current date and time
 - `<terse-description>` — a short, hyphen-separated description of the topic (e.g. `user-auth-flow`)
 
+## Design
+
+Design the document for **light mode** (dark text on a light background) unless the user invoking the skill specifies otherwise.
+
 Tell the user where the file was written. Emit the full path on its own line, then emit a `file://` URL on the next line. Ask them to review the document before proceeding to the proposal phase.

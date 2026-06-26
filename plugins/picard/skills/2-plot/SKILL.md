@@ -28,6 +28,8 @@ If a research document for this topic exists in the same `doc/work-sessions/<yyy
 
 Present the information in whatever way or style feels appropriate. Use rich content like images, diagrams, code snippets, appropriate fonts, etc.
 
+Design the document for **light mode** (dark text on a light background) unless the user invoking the skill specifies otherwise.
+
 ### Diagrams
 
 The output is HTML, so **do not draw diagrams as ASCII/Unicode box art inside `<pre>` blocks.** Hand-drawn ASCII boxes reliably come out misaligned — edges don't line up, arrows drift, and the result looks garbled. Instead, use the actual capabilities of the medium:
