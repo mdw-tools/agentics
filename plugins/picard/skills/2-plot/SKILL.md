@@ -51,17 +51,6 @@ The checklist must be detailed and actionable. Each item should be a concrete, v
 
 Group related steps into named phases.
 
-## Your Turn section
-
-Most proposals should designate a portion of the work for the human user to implement. Choose a portion of that work that is:
-
-- **Interesting** — the core logic, a non-trivial algorithm, or the most semantically meaningful production-code contribution.
-- **Not too difficult or time-consuming** - The user wants to get their 'hands dirty' in code, but not at the cost of too much delay.
-
-Make sure there's a section in the document that includes some explanation about the user's portion of the work. Don't write the code for the user. Supply information about what behavior to build/model, perhaps method signatures of collaborating components that should be used, a description of what tests need to pass, etc.
-
-**Opt-out:** If the user says "skip the your-turn step" when requesting the proposal, or later, then omit the "your-turn" section entirely. In that case that portion of work becomes a normal agent-implemented step.
-
 ## Iteration
 
 After writing the document, emit the full path on its own line, then emit a `file://` URL on the next line. Ask the user to review it and provide feedback in chat.
