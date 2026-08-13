@@ -15,6 +15,12 @@
       "source": "./plugins/data",
       "description": "Git-oriented analysis skills: scan-branches (compare branches).",
       "version": "0.2.5"
+    },
+    {
+      "name": "riker",
+      "source": "./plugins/riker",
+      "description": "Branch-surgery skills: separate (split a large branch into sequenced branches for stacked PRs).",
+      "version": "0.1.0"
     }
   ]
 }

@@ -23,6 +23,14 @@ Analysis skills for comparing and reviewing code across branches.
 |---------------|----------------------------------|----------------------------------------------------------------|
 | scan-branches | `/scan-branches <branch> [base]` | Summarizes differences between branches; flags concerns        |
 
+### [riker](plugins/riker/README.md)
+
+Branch-surgery skills for shipping large changes as small, sequenced steps.
+
+| Skill    | Command                       | Purpose                                                        |
+|----------|-------------------------------|----------------------------------------------------------------|
+| separate | `/separate [base] [branch]`   | Splits a large branch into sequenced branches for stacked PRs  |
+
 ## Installation
 
 **Add this marketplace to Claude Code:**
@@ -41,6 +49,12 @@ Analysis skills for comparing and reviewing code across branches.
 
 ```
 /plugin install data@agentics
+```
+
+**Install the riker plugin:**
+
+```
+/plugin install riker@agentics
 ```
 
 After installing a plugin, exit and re-enter Claude Code to ensure it loads properly.
