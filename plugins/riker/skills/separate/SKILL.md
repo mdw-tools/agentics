@@ -72,8 +72,19 @@ For each stage *n*, in order:
 1. Create the stage branch from the previous stage branch. Create stage 1 from the base branch.
 2. Apply the stage's changes:
    - **Cherry-pick**: run `git cherry-pick <commits>` for the planned commits.
-   - **Diff partition**: for whole files, run `git checkout <branch> -- <paths>`. For partial files, build and apply a filtered patch. Then commit with a clear message that names the stage.
+   - **Diff partition**: for whole files, run `git checkout <branch> -- <paths>`. For partial files, build and apply a filtered patch. Then commit with a message that follows the rules below.
 3. If the project has a test command (for example, `make test`), run it on the new branch. If the tests fail, stop. Report the failure and propose a regrouping. Do not continue past a failing stage.
+
+### Commit messages
+
+A stage commit often combines the work of several original commits. The new commit must keep all important information from those original commits. Read the full message of each original commit with `git log --format=full <base>...<branch>` before you write the new messages.
+
+- Start the subject line with a clear description of the stage.
+- In the body, carry forward from the original commits:
+  - the reasoning and context ("why") recorded in commit bodies
+  - references to tickets, issues, and pull requests
+  - trailers such as `Co-authored-by:`, `Fixes:`, and `Breaking-change:` notes
+- Do not invent information. Omit an item only when no original commit contains it.
 
 ## Verify
 
