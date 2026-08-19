@@ -1,0 +1,5 @@
+{
+  "name": "computer",
+  "description": "Spoken responses, like the ship's computer: on (enable speech), off (disable speech).",
+  "version": "0.1.0"
+}

@@ -21,6 +21,12 @@
       "source": "./plugins/riker",
       "description": "Branch-surgery skills: separate (split a large branch into sequenced branches for stacked PRs).",
       "version": "0.2.0"
+    },
+    {
+      "name": "computer",
+      "source": "./plugins/computer",
+      "description": "Spoken responses, like the ship's computer: on (enable speech), off (disable speech).",
+      "version": "0.1.0"
     }
   ]
 }
