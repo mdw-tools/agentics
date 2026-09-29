@@ -42,9 +42,13 @@ Number every issue in the document so that the user can reference it in conversa
 
 Completely disregard any issue that is low priority, merely stylistic, or a nit. Omit these issues from the document entirely: do not list them, count them, or mention that they were omitted. Include them only if the user invoking the skill explicitly requests them.
 
+## No issues
+
+If no issues remain after the omissions above, do **not** write a document. Instead, emit the summary of changes directly in the conversation and state that no issues were found. Skip the rest of this skill.
+
 ## Output document
 
-Determine the git repo root (use `git rev-parse --show-toplevel`), then write the review to:
+When there is at least one issue to report, determine the git repo root (use `git rev-parse --show-toplevel`), then write the review to:
 
 ```
 <git-repo-root>/doc/work-sessions/<yyyy>/<yyyy-mm-dd_hh-mm-ss>-branch-scan-<base>-vs-<compare>.html
