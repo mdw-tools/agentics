@@ -8,19 +8,19 @@
       "name": "picard",
       "source": "./plugins/picard",
       "description": "Agentic coding workflow skills: scan (research), plot (proposal), replot (rework proposal), engage (implementation).",
-      "version": "0.3.7"
+      "version": "0.3.8"
     },
     {
       "name": "data",
       "source": "./plugins/data",
       "description": "Git-oriented analysis skills: scan-branches (compare branches).",
-      "version": "0.2.6"
+      "version": "0.2.7"
     },
     {
       "name": "riker",
       "source": "./plugins/riker",
       "description": "Branch-surgery skills: separate (split a large branch into sequenced branches for stacked PRs).",
-      "version": "0.2.0"
+      "version": "0.2.1"
     },
     {
       "name": "computer",

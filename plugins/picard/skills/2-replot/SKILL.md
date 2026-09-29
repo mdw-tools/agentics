@@ -24,22 +24,6 @@ For each referenced item of feedback:
 
 Apply every queued change to the proposal, removing the feedback comments as you go.
 
-Write all new or revised prose according to the principles of ASD-STE100 (Simplified Technical English):
-
-- Use simple, common words, each with one clear meaning. Prefer the shortest word that works.
-- Use the active voice and name the doer: "The parser rejects empty input," not "Empty input is rejected."
-- Use the present tense wherever possible.
-- Keep sentences short: at most 20 words for instructions (e.g. checklist items), at most 25 words for descriptive text.
-- Write one instruction per sentence, and one topic per sentence.
-- Keep each paragraph to one topic and at most 6 sentences.
-- Use articles ("a", "the") and demonstratives ("this", "these") — do not drop them telegraphically.
-- Break up noun clusters of more than three nouns.
-- Use the same term for the same thing throughout the document — no elegant variation.
-- Use vertical lists in place of long, complex sentences.
-- Avoid idioms, slang, and unnecessary jargon.
-
-Exact technical names (types, functions, commands, file paths) are exempt from vocabulary rules — always write them precisely.
-
 ## Iterate
 
 Tell the user the file has been updated. Emit the full path on its own line, then emit a `file://` URL on the next line. Ask them to review it. If they have more feedback, repeat the cycle — collect, resolve, apply, overwrite. Continue until the user explicitly approves the proposal or invokes `/engage`.
