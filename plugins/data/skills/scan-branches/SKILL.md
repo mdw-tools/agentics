@@ -1,6 +1,6 @@
 ---
 name: scan-branches
-description: Compare two git branches. Summarizes differences and flags concerns (bugs, security, style, inconsistencies).
+description: Compare two git branches. Summarizes differences and flags numbered concerns (bugs, security, inconsistencies).
 ---
 
 The user wants to compare two git branches.
@@ -32,7 +32,15 @@ If the diff output is very large, do not attempt to review every line. Instead, 
 
 ## Summarize
 
-Review the differences between the two branches. Summarize the changes and flag any concerns (bugs, security, style, inconsistencies). Do NOT try to gather context about the changes from previous sessions/conversations. Take the position of an unbiased reviewer.
+Review the differences between the two branches. Summarize the changes and flag any concerns (bugs, security, inconsistencies). Do NOT try to gather context about the changes from previous sessions/conversations. Take the position of an unbiased reviewer.
+
+### Numbering
+
+Number every issue in the document so that the user can reference it in conversation (e.g. "issue 3"). Use one continuous sequence across the whole document, even when issues appear under different headings. Show each number visibly next to its issue.
+
+### Omissions
+
+Completely disregard any issue that is low priority, merely stylistic, or a nit. Omit these issues from the document entirely: do not list them, count them, or mention that they were omitted. Include them only if the user invoking the skill explicitly requests them.
 
 ## Output document
 
