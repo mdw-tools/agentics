@@ -9,7 +9,9 @@ The user wants to compare two git branches.
 
 - If **one** branch name is provided, use the current branch (`git branch --show-current`) as the **base** and the provided branch as the **compare** branch.
 - If **two** branch names are provided, the first is the **base** and the second is the **compare** branch.
-- If no branch name is provided, ask the user which branch to compare against.
+- If **no** branch names are provided:
+  - If the current branch is `main` or `master`, or HEAD is detached, ask the user which branches to compare.
+  - Otherwise, use `main` as the **base** (or `master` if `main` does not exist) and the current branch as the **compare** branch. If neither exists, ask the user.
 
 ## Validate
 
