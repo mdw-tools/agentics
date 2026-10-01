@@ -36,21 +36,25 @@ If the diff output is very large, do not attempt to review every line. Instead, 
 
 Review the differences between the two branches. Summarize the changes and flag any concerns (bugs, security, inconsistencies). Do NOT try to gather context about the changes from previous sessions/conversations. Take the position of an unbiased reviewer.
 
+### Major and minor issues
+
+An issue that is low priority, merely stylistic, or a nit is a **minor** issue. Every other issue is a **major** issue.
+
 ### Numbering
 
-Number every issue in the document so that the user can reference it in conversation (e.g. "issue 3"). Use one continuous sequence across the whole document, even when issues appear under different headings. Show each number visibly next to its issue.
+Number every issue so that the user can reference it in conversation (e.g. "issue 3"). Use one continuous sequence: number the major issues first, then continue the sequence with the minor issues. Use the same numbers in the document and in the conversation. Show each number visibly next to its issue.
 
-### Omissions
+### Minor issues
 
-Completely disregard any issue that is low priority, merely stylistic, or a nit. Omit these issues from the document entirely: do not list them, count them, or mention that they were omitted. Include them only if the user invoking the skill explicitly requests them.
+Always list the minor issues in the conversation (see **Minor issues listing** below). Leave them out of the document entirely: do not list them, count them, or mention that they were omitted. Include them in the document only if the user invoking the skill explicitly requests them.
 
-## No issues
+## No major issues
 
-If no issues remain after the omissions above, do **not** write a document. Instead, emit the summary of changes directly in the conversation and state that no issues were found. Skip the rest of this skill.
+If there are no major issues, do **not** write a document. Instead, emit the summary of changes directly in the conversation, state that no major issues were found, then emit the **Minor issues listing**. Skip the **Output document** and **Design** sections.
 
 ## Output document
 
-When there is at least one issue to report, determine the git repo root (use `git rev-parse --show-toplevel`), then write the review to:
+When there is at least one major issue to report, determine the git repo root (use `git rev-parse --show-toplevel`), then write the review to:
 
 ```
 <git-repo-root>/doc/work-sessions/<yyyy>/<yyyy-mm-dd_hh-mm-ss>-branch-scan-<base>-vs-<compare>.html
@@ -65,3 +69,7 @@ When there is at least one issue to report, determine the git repo root (use `gi
 Design the document for **light mode** (dark text on a light background) unless the user invoking the skill specifies otherwise.
 
 Tell the user where the file was written. Emit the full path on its own line, then emit a `file://` URL on the next line.
+
+## Minor issues listing
+
+After telling the user where the file was written, emit a `## Minor issues` heading in the conversation, followed by one bullet per minor issue: its number, its location (`file:line`), and a one-sentence description. If there are no minor issues, state that in one line instead.
