@@ -18,28 +18,33 @@ Fetching every repository can take a minute or more, so run the script in the ba
 
 With no argument, the script scans the current working directory. If it exits with an error (for example, the given path is not a directory), tell the user what it said and stop.
 
-The script fetches every repository concurrently and prints one tab-separated line per repository:
+The script fetches every repository concurrently, then prints a summary line, a fixed-width table of the repositories that are behind their upstream, and a list of the repositories that hit an error. Every other repository is left out. Read its output as-is; do not filter or reformat it with other commands.
 
 ```
-repo  branch  current  ahead  behind  dirty  error
+Scanned <root>: <n> repositories, <n> incoming, <n> errored
+
+BRANCH  CURRENT  AHEAD  BEHIND  DIRTY  REPO
+main    main         0       4  -      github.com/acme/widgets
+
+Errors:
+github.com/acme/gadgets: fetch: fatal: could not read from remote repository
 ```
 
-- `repo` — absolute path of the repository
-- `branch` — the default branch (the `review.branch` git config, else `main`, else `master`)
-- `current` — the checked-out branch (empty when HEAD is detached)
-- `ahead` / `behind` — commit counts of `<branch>` relative to `origin/<branch>`
-- `dirty` — `dirty` when the working tree has uncommitted changes
-- `error` — the first line of any fetch or ref error
+- `BRANCH` — the default branch (the `review.branch` git config, else `main`, else `master`)
+- `CURRENT` — the checked-out branch (`-` when HEAD is detached)
+- `AHEAD` / `BEHIND` — commit counts of `<branch>` relative to `origin/<branch>`
+- `DIRTY` — `dirty` when the working tree has uncommitted changes, else `-`
+- `REPO` — path of the repository relative to `<root>` (prefix it with `<root>/` in the commands below)
+- `Errors:` — one `<REPO>: <error>` line per repository whose fetch or ref lookup failed; omitted when there are none
 
-Repositories with `git config review.skip true` are left out. Below, refer to each repository by its path relative to the scan root.
+Repositories with `git config review.skip true` are left out. Below, `<repo>` in a command means `<root>/<REPO>`; everywhere else, refer to each repository by its `REPO` path.
 
 ## Classify
 
-- **Incoming** — `behind` > 0. These are the repositories to review.
-- **Errored** — `error` is not empty.
-- Ignore every other repository. Do not report on repositories that are only dirty or only ahead.
+- **Incoming** — each row of the table. These are the repositories to review.
+- **Errored** — each line under `Errors:`.
 
-If nothing is incoming or errored, say so in one line and stop.
+If the summary line reports nothing incoming or errored, say so in one line and stop.
 
 ## Review each incoming repository
 
@@ -75,7 +80,7 @@ Flag a repository for human review when any of the following is true:
 6. **Data** — database migrations or schema changes
 7. **Breaking** — exported/public APIs removed or changed incompatibly
 8. **Suspected bug** — something in the diff looks wrong
-9. **Diverged** — `ahead` > 0 and `behind` > 0, which can mean local work or rewritten upstream history
+9. **Diverged** — `AHEAD` > 0 and `BEHIND` > 0, which can mean local work or rewritten upstream history
 
 Do not flag a repository for nits or style.
 
@@ -109,7 +114,7 @@ smerge <repo>
 
 ## Pull
 
-For each incoming repository where `current` equals `branch` and `ahead` is 0, run:
+For each incoming repository where `CURRENT` equals `BRANCH` and `AHEAD` is 0, run:
 
 ```
 git -C <repo> pull --ff-only origin <branch>
@@ -120,4 +125,4 @@ Never pull a repository that is diverged, that has a different branch checked ou
 Finish with a `## Pull results` section:
 
 - One line with the number of repositories pulled
-- One bullet per incoming repository that was not pulled, with the reason (diverged, on branch `<current>`, detached HEAD, or the first line of the pull error)
+- One bullet per incoming repository that was not pulled, with the reason (diverged, on branch `<CURRENT>`, detached HEAD, or the first line of the pull error)
