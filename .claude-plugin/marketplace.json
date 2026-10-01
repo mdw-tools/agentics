@@ -14,7 +14,7 @@
       "name": "data",
       "source": "./plugins/data",
       "description": "Git-oriented analysis skills: scan-branches (compare branches), scan-repos (review and pull upstream changes across all repos).",
-      "version": "0.3.0"
+      "version": "0.3.1"
     },
     {
       "name": "riker",
