@@ -64,7 +64,7 @@ git -C <repo> diff <branch>...origin/<branch> -- . ':(exclude)vendor/**' ':(excl
 
 If the shortstat reports more than about 2000 changed lines, do not read the whole diff. Work from the log and stat, and read only the files that look most consequential (`git diff <branch>...origin/<branch> -- <file>`).
 
-If more than 5 repositories are incoming, review them in parallel with one subagent per repository. Give each subagent the commands above, the flag criteria below, and ask it to return only the summary and the flag verdict with its reasons.
+If more than 5 repositories are incoming, review them in parallel with one subagent per repository. Give each subagent the commands above, the flag criteria below, and ask it to return only one to five bullets summarizing the changes and the flag verdict with its reasons.
 
 Take the position of an unbiased reviewer. Do not gather context from previous sessions or conversations.
 
@@ -88,21 +88,28 @@ Do not flag a repository for nits or style.
 
 Emit the report in the conversation. Do not write a document.
 
-### Flagged
+List every incoming repository as a bulleted outline: a top-level bullet with its `REPO` path, and beneath it one to five nested bullets that each summarize one change. Put the flagged repositories (the ones opened in smerge below) first, then a `---` separator, then the unflagged repositories. For each flagged repository, end its nested bullets with a `Flagged:` bullet naming the criteria that applied and the specific files or commits involved.
 
-A heading `## Flagged for review (<n>)`, then for each flagged repository:
+```
+- github.com/acme/widgets
+  - Replace the session token check with JWT validation
+  - Add a migration that drops the legacy_users table
+  - Flagged: security-sensitive (auth/jwt.go), data (migrations/0042_drop_legacy_users.sql)
 
-- A `### <repo>` heading followed by the commit count, file count, and `+<added>/-<deleted>` lines
-- Two to five bullets summarizing what changed
-- A **Why flagged** line naming the criteria that applied and the specific files or commits involved
+---
 
-### Routine
+- github.com/acme/gadgets
+  - Fix an off-by-one in pagination
+- github.com/acme/gizmos
+  - Bump the Go toolchain to 1.25
+  - Rename the internal retry helper
+```
 
-A heading `## Routine (<n>)`, then one bullet per unflagged incoming repository: `**<repo>** (<commits> commits, +<added>/-<deleted>): <one-sentence summary>`.
+Put a blank line before and after the separator. Omit the separator when either group is empty.
 
 ### Errors
 
-A heading `## Errors (<n>)`, then one bullet per errored repository with its error. Omit this section when there are none.
+After the outline, a heading `## Errors (<n>)`, then one bullet per errored repository with its error. Omit this section when there are none.
 
 ## Open flagged repositories
 
