@@ -1,6 +1,6 @@
 ---
 name: scan-repos
-description: Fetch every git repo under the current working directory, summarize the new commits on each default branch, open risky or large changes in smerge, then fast-forward the repos that can be pulled cleanly.
+description: Fetch every git repo under the current working directory, summarize the new commits on each default branch in a markdown checklist the user marks up in $EDITOR, open the marked repos in smerge for the user to review and pull, then fast-forward the unmarked repos that can be pulled cleanly.
 disable-model-invocation: true
 ---
 
@@ -86,21 +86,31 @@ Do not flag a repository for nits or style.
 
 ## Report
 
-Emit the report in the conversation. Do not write a document.
+If nothing is incoming but some repositories errored, skip the file and the editor: emit only the errors section below in the conversation, then stop.
 
-List every incoming repository as a bulleted outline: a top-level bullet with its `REPO` path, and beneath it one to five nested bullets that each summarize one change. Put the flagged repositories (the ones opened in smerge below) first, then a `---` separator, then the unflagged repositories. For each flagged repository, end its nested bullets with a `Flagged:` bullet naming the criteria that applied and the specific files or commits involved.
+Otherwise, write the report to a markdown file named `scan-repos-<yyyy-mm-dd_hh-mm-ss>.md` in the session's scratchpad directory (or in `$TMPDIR` when there is none). Do not emit the report in the conversation.
+
+Begin the file with this comment line, followed by a blank line:
 
 ```
-- github.com/acme/widgets
+<!-- Mark [x] beside each repository to review in smerge, then save and close. Unmarked repositories are pulled automatically. ">>>" marks the ones flagged for review. -->
+```
+
+Then list every incoming repository as a bulleted outline: a top-level bullet with an empty checkbox (`- [] `, with no space between the brackets, so that marking it takes a single inserted `x`) and its `REPO` path, and beneath it one to five nested bullets that each summarize one change. Leave every checkbox empty; the user decides which repositories to review. Prefix the `REPO` path of each flagged repository with `>>> `. Put the flagged repositories first, then a `---` separator, then the unflagged repositories. For each flagged repository, end its nested bullets with a `Flagged:` bullet naming the criteria that applied and the specific files or commits involved.
+
+```
+<!-- Mark [x] beside each repository to review in smerge, then save and close. Unmarked repositories are pulled automatically. ">>>" marks the ones flagged for review. -->
+
+- [] >>> github.com/acme/widgets
   - Replace the session token check with JWT validation
   - Add a migration that drops the legacy_users table
   - Flagged: security-sensitive (auth/jwt.go), data (migrations/0042_drop_legacy_users.sql)
 
 ---
 
-- github.com/acme/gadgets
+- [] github.com/acme/gadgets
   - Fix an off-by-one in pagination
-- github.com/acme/gizmos
+- [] github.com/acme/gizmos
   - Bump the Go toolchain to 1.25
   - Rename the internal retry helper
 ```
@@ -109,19 +119,37 @@ Put a blank line before and after the separator. Omit the separator when either 
 
 ### Errors
 
-After the outline, a heading `## Errors (<n>)`, then one bullet per errored repository with its error. Omit this section when there are none.
+After the outline, a heading `## Errors (<n>)`, then one plain bullet (no checkbox) per errored repository with its error. Omit this section when there are none.
 
-## Open flagged repositories
+## Choose repositories to review
 
-For each flagged repository, run:
+Tell the user, in one line, that the checklist is open for review and give the file's absolute path. Then open the file in the user's editor:
+
+```
+$EDITOR <file>
+```
+
+Leave `$EDITOR` unquoted so an editor command with arguments (such as `subl --wait`) splits correctly. Run it in the background, because the user may keep the file open for longer than a foreground command is allowed to run, and wait for it to exit before going on. Do not poll the file while waiting, and do not pull any repository before the user has made their selection: changes are easier to review in smerge before they land on the local branch.
+
+If `$EDITOR` is unset, or names a terminal editor (such as `vi`, `vim`, `nvim`, `nano`, or `emacs` without `-c`) that cannot run without a terminal, do not run it. Instead, give the user the file's absolute path and ask them to reply once they have marked and saved it.
+
+Once the editor exits (or the user replies), read the file. A repository is selected when its top-level line begins with `- [x] ` or `- [X] `. Take the rest of the line, drop a leading `>>> `, and trim surrounding whitespace to get its `REPO` path. Ignore every other line, including the nested bullets and the errors section. If a selected path does not match an incoming repository, skip it and mention it in the conversation.
+
+## Open selected repositories
+
+For each selected repository, run:
 
 ```
 smerge <repo>
 ```
 
+Then list the opened repositories in the conversation under a `## Opened in smerge` heading, or say in one line that none were selected.
+
 ## Pull
 
-For each incoming repository where `CURRENT` equals `BRANCH` and `AHEAD` is 0, run:
+Leave every selected repository unpulled; the user pulls it from smerge after reviewing it.
+
+For each incoming repository that was not selected, where `CURRENT` equals `BRANCH` and `AHEAD` is 0, run:
 
 ```
 git -C <repo> pull --ff-only origin <branch>
@@ -132,4 +160,4 @@ Never pull a repository that is diverged, that has a different branch checked ou
 Finish with a `## Pull results` section:
 
 - One line with the number of repositories pulled
-- One bullet per incoming repository that was not pulled, with the reason (diverged, on branch `<CURRENT>`, detached HEAD, or the first line of the pull error)
+- One bullet per unselected incoming repository that was not pulled, with the reason (diverged, on branch `<CURRENT>`, detached HEAD, or the first line of the pull error)
