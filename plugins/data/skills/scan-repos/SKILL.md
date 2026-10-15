@@ -110,12 +110,13 @@ Then list every incoming repository as a bulleted outline: a top-level bullet wi
 
 - [] github.com/acme/gadgets
   - Fix an off-by-one in pagination
+
 - [] github.com/acme/gizmos
   - Bump the Go toolchain to 1.25
   - Rename the internal retry helper
 ```
 
-Put a blank line before and after the separator. Omit the separator when either group is empty.
+Put a blank line before each repository's top-level bullet, and before and after the separator. Omit the separator when either group is empty.
 
 ### Errors
 
