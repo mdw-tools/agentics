@@ -1,10 +1,10 @@
 ---
 name: scan-repos
-description: Fetch every git repo under the current working directory, summarize the new commits on each default branch in a markdown checklist the user marks up in $EDITOR, open the marked repos in smerge for the user to review and pull, then fast-forward the unmarked repos that can be pulled cleanly.
+description: Fetch every git repo under the current working directory, summarize the new commits on each default branch in a markdown checklist the user marks up in $EDITOR, open the marked repos (and every repo with uncommitted changes or unpushed commits) in smerge, then fast-forward the unmarked repos that can be pulled cleanly.
 disable-model-invocation: true
 ---
 
-The user wants a daily digest of upstream changes across all of their local git repositories, followed by a pull of each repository that can be updated safely.
+The user wants a daily digest of upstream changes across all of their local git repositories, followed by a pull of each repository that can be updated safely, and a reminder (via smerge) of every repository holding work that has not been committed or pushed.
 
 ## Fetch
 
@@ -18,13 +18,14 @@ Fetching every repository can take a minute or more, so run the script in the ba
 
 With no argument, the script scans the current working directory. If it exits with an error (for example, the given path is not a directory), tell the user what it said and stop.
 
-The script fetches every repository concurrently, then prints a summary line, a fixed-width table of the repositories that are behind their upstream, and a list of the repositories that hit an error. Every other repository is left out. Read its output as-is; do not filter or reformat it with other commands.
+The script fetches every repository concurrently, then prints a summary line, a fixed-width table of the repositories that are behind their upstream or that hold local work, and a list of the repositories that hit an error. Every other repository is left out. Read its output as-is; do not filter or reformat it with other commands.
 
 ```
-Scanned <root>: <n> repositories, <n> incoming, <n> errored
+Scanned <root>: <n> repositories, <n> incoming, <n> local, <n> errored
 
-BRANCH  CURRENT  AHEAD  BEHIND  DIRTY  REPO
-main    main         0       4  -      github.com/acme/widgets
+BRANCH  CURRENT  AHEAD  BEHIND  UNPUSHED  DIRTY  REPO
+main    main         0       4         0  -      github.com/acme/widgets
+main    feature      0       0         3  dirty  github.com/acme/sprockets
 
 Errors:
 github.com/acme/gadgets: fetch: fatal: could not read from remote repository
@@ -33,6 +34,7 @@ github.com/acme/gadgets: fetch: fatal: could not read from remote repository
 - `BRANCH` — the default branch (the `review.branch` git config, else `main`, else `master`)
 - `CURRENT` — the checked-out branch (`-` when HEAD is detached)
 - `AHEAD` / `BEHIND` — commit counts of `<branch>` relative to `origin/<branch>`
+- `UNPUSHED` — commits on any local branch that are not on any remote branch
 - `DIRTY` — `dirty` when the working tree has uncommitted changes, else `-`
 - `REPO` — path of the repository relative to `<root>` (prefix it with `<root>/` in the commands below)
 - `Errors:` — one `<REPO>: <error>` line per repository whose fetch or ref lookup failed; omitted when there are none
@@ -41,10 +43,13 @@ Repositories with `git config review.skip true` are left out. Below, `<repo>` in
 
 ## Classify
 
-- **Incoming** — each row of the table. These are the repositories to review.
+- **Incoming** — each row of the table whose `BEHIND` > 0. These are the repositories to review.
+- **Local** — each row of the table whose `UNPUSHED` > 0 or whose `DIRTY` is `dirty`. These are always opened in smerge, whether or not the user selects them.
 - **Errored** — each line under `Errors:`.
 
-If the summary line reports nothing incoming or errored, say so in one line and stop.
+A repository can be both incoming and local; it then goes through the review and pull steps like any other incoming repository, and is also opened in smerge.
+
+If the summary line reports nothing incoming, local, or errored, say so in one line and stop.
 
 ## Review each incoming repository
 
@@ -86,7 +91,7 @@ Do not flag a repository for nits or style.
 
 ## Report
 
-If nothing is incoming but some repositories errored, skip the file and the editor: emit only the errors section below in the conversation, then stop.
+If nothing is incoming, skip the file and the editor: emit the errors section below in the conversation (when any repositories errored), then go straight to [Open in smerge](#open-in-smerge) and stop after it.
 
 Otherwise, write the report to a markdown file named `scan-repos-<yyyy-mm-dd_hh-mm-ss>.md` in the session's scratchpad directory (or in `$TMPDIR` when there is none). Do not emit the report in the conversation.
 
@@ -136,15 +141,15 @@ If `$EDITOR` is unset, or names a terminal editor (such as `vi`, `vim`, `nvim`, 
 
 Once the editor exits (or the user replies), read the file. A repository is selected when its top-level line begins with `- [x] ` or `- [X] `. Take the rest of the line, drop a leading `>>> `, and trim surrounding whitespace to get its `REPO` path. Ignore every other line, including the nested bullets and the errors section. If a selected path does not match an incoming repository, skip it and mention it in the conversation.
 
-## Open selected repositories
+## Open in smerge
 
-For each selected repository, run:
+For each selected repository, and for each local repository (selected or not), run once:
 
 ```
 smerge <repo>
 ```
 
-Then list the opened repositories in the conversation under a `## Opened in smerge` heading, or say in one line that none were selected.
+Then list the opened repositories in the conversation under a `## Opened in smerge` heading, one bullet per repository with the reason it was opened: `selected`, and/or the local work it holds (`dirty`, `<n> unpushed`). Say in one line that none were opened when there were none.
 
 ## Pull
 

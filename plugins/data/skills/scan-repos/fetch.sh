@@ -5,12 +5,13 @@
 # Finds every git repository under root (default: the current working
 # directory) and runs `git fetch` on each one concurrently. Prints a summary
 # line, then a fixed-width table of the repositories that are behind their
-# upstream, then one line per repository that hit an error (every other
-# repository is left out):
+# upstream or that hold local work (uncommitted changes or unpushed commits),
+# then one line per repository that hit an error (every other repository is
+# left out):
 #
-#   Scanned <root>: <n> repositories, <n> incoming, <n> errored
+#   Scanned <root>: <n> repositories, <n> incoming, <n> local, <n> errored
 #
-#   BRANCH  CURRENT  AHEAD  BEHIND  DIRTY  REPO
+#   BRANCH  CURRENT  AHEAD  BEHIND  UNPUSHED  DIRTY  REPO
 #
 #   Errors:
 #   <repo>: <error>
@@ -19,6 +20,7 @@
 #   CURRENT  checked-out branch ("-" when HEAD is detached)
 #   AHEAD    commits on <branch> that are not on origin/<branch>
 #   BEHIND   commits on origin/<branch> that are not on <branch>
+#   UNPUSHED commits on any local branch that are not on any remote branch
 #   DIRTY    "dirty" when the working tree has uncommitted changes, else "-"
 #   REPO     path of the repository relative to root
 #   error    first line of a fetch or ref error
@@ -37,7 +39,7 @@ fi
 root="$(cd "$root" && pwd -P)"
 
 inspect() {
-	local repo="$1" branch current counts ahead behind dirty="" error=""
+	local repo="$1" branch current counts ahead behind unpushed dirty="" error=""
 	cd "$repo" || return
 	if [ "$(git config --get review.skip)" = "true" ]; then
 		return
@@ -66,12 +68,13 @@ inspect() {
 		ahead="${counts%%[[:space:]]*}"
 		behind="${counts##*[[:space:]]}"
 	fi
+	unpushed="$(git rev-list --count --branches --not --remotes 2>/dev/null)"
 	if [ -n "$(git status --porcelain 2>/dev/null | head -n 1)" ]; then
 		dirty=dirty
 	fi
 	# Keep each line short so concurrent writes to the pipe stay atomic.
 	error="${error//$'\t'/ }"
-	printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$repo" "$branch" "$current" "$ahead" "$behind" "$dirty" "${error:0:200}"
+	printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$repo" "$branch" "$current" "$ahead" "$behind" "${unpushed:-0}" "$dirty" "${error:0:200}"
 }
 export -f inspect
 
@@ -90,35 +93,37 @@ find "$root" \
 	awk -F'\t' -v root="$root" '
 		BEGIN {
 			prefix = (root == "/") ? "/" : root "/"
-			split("BRANCH CURRENT AHEAD BEHIND DIRTY REPO", header, " ")
-			for (i = 1; i <= 6; i++) width[i] = length(header[i])
+			split("BRANCH CURRENT AHEAD BEHIND UNPUSHED DIRTY REPO", header, " ")
+			for (i = 1; i <= 7; i++) width[i] = length(header[i])
 		}
 		{
 			total++
 			if (index($1, prefix) == 1) $1 = substr($1, length(prefix) + 1)
-			if ($7 != "") error[++errored] = $1 ": " $7
-			if ($5 == 0) next
-			incoming++
-			split(($2 == "" ? "-" : $2) "\t" ($3 == "" ? "-" : $3) "\t" $4 "\t" $5 "\t" ($6 == "" ? "-" : $6) "\t" $1, values, "\t")
-			for (i = 1; i <= 6; i++) {
-				cell[incoming, i] = values[i]
+			if ($8 != "") error[++errored] = $1 ": " $8
+			if ($5 > 0) incoming++
+			if ($6 > 0 || $7 != "") local++
+			if ($5 == 0 && $6 == 0 && $7 == "") next
+			rows++
+			split(($2 == "" ? "-" : $2) "\t" ($3 == "" ? "-" : $3) "\t" $4 "\t" $5 "\t" $6 "\t" ($7 == "" ? "-" : $7) "\t" $1, values, "\t")
+			for (i = 1; i <= 7; i++) {
+				cell[rows, i] = values[i]
 				if (length(values[i]) > width[i]) width[i] = length(values[i])
 			}
 		}
 		function emit(values,    i, format) {
-			for (i = 1; i <= 6; i++) {
-				format = (i == 3 || i == 4) ? "%" width[i] "s  " : "%-" width[i] "s  "
-				if (i == 6) format = "%s\n"
+			for (i = 1; i <= 7; i++) {
+				format = (i >= 3 && i <= 5) ? "%" width[i] "s  " : "%-" width[i] "s  "
+				if (i == 7) format = "%s\n"
 				printf format, values[i]
 			}
 		}
 		END {
-			printf "Scanned %s: %d repositories, %d incoming, %d errored\n", root, total, incoming, errored
-			if (incoming > 0) {
+			printf "Scanned %s: %d repositories, %d incoming, %d local, %d errored\n", root, total, incoming, local, errored
+			if (rows > 0) {
 				print ""
 				emit(header)
-				for (r = 1; r <= incoming; r++) {
-					for (i = 1; i <= 6; i++) values[i] = cell[r, i]
+				for (r = 1; r <= rows; r++) {
+					for (i = 1; i <= 7; i++) values[i] = cell[r, i]
 					emit(values)
 				}
 			}
